@@ -1,0 +1,394 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Curso1NetTGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Alumno">
+          <Key>
+            <PropertyRef Name="IDAlumno" />
+          </Key>
+          <Property Name="IDAlumno" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Cursos">
+          <Key>
+            <PropertyRef Name="IDCurso" />
+          </Key>
+          <Property Name="IDCurso" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Horarios">
+          <Key>
+            <PropertyRef Name="IDHorario" />
+          </Key>
+          <Property Name="IDHorario" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Descripcionlarga" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parametros">
+          <Key>
+            <PropertyRef Name="IdParametro" />
+          </Key>
+          <Property Name="IdParametro" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Seccion" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Parametro" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Valor" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AlumnoCursos">
+          <Key>
+            <PropertyRef Name="IDAlumnoCursos" />
+          </Key>
+          <Property Name="IDAlumnoCursos" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IDAlumno" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IDCursos" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AlumnoCursos_Alumno">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+          <End Role="AlumnoCursos" Type="Self.AlumnoCursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="IDAlumno" />
+            </Principal>
+            <Dependent Role="AlumnoCursos">
+              <PropertyRef Name="IDAlumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlumnoCursos_Cursos">
+          <End Role="Cursos" Type="Self.Cursos" Multiplicity="1" />
+          <End Role="AlumnoCursos" Type="Self.AlumnoCursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cursos">
+              <PropertyRef Name="IDCurso" />
+            </Principal>
+            <Dependent Role="AlumnoCursos">
+              <PropertyRef Name="IDCursos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetAlumnos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cat">
+          <Parameter Name="IDAlumno" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="GETCursos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cat">
+          <Parameter Name="IDCursos" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="GETHorarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cat">
+          <Parameter Name="IDHorario" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="MantenimientoAlumno" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cat">
+          <Parameter Name="IDAlumno" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Apellido" Type="varchar" Mode="In" />
+          <Parameter Name="Correo" Type="varchar" Mode="In" />
+          <Parameter Name="Accion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MantenimientoAlumnosBatch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cat">
+          <Parameter Name="Accion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MantenimientoCursos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cat">
+          <Parameter Name="IdCursos" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="accion" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="MantenimientoHorario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cat">
+          <Parameter Name="IDHorario" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="DescripcionLarga" Type="varchar" Mode="In" />
+          <Parameter Name="Accion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetAlumnosCursos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Movs">
+          <Parameter Name="IDAlumnoCursos" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="IDAlumno" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="IDCursos" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="MantenimientoAlumnosCursos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Movs">
+          <Parameter Name="IDAlumnoCursos" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="IDAlumno" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="IDCursos" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Accion" Type="smallint" Mode="In" />
+        </Function>
+        <EntityContainer Name="Curso1NetTGModelStoreContainer">
+          <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="Cat" store:Type="Tables" />
+          <EntitySet Name="Cursos" EntityType="Self.Cursos" Schema="Cat" store:Type="Tables" />
+          <EntitySet Name="Horarios" EntityType="Self.Horarios" Schema="Cat" store:Type="Tables" />
+          <EntitySet Name="Parametros" EntityType="Self.Parametros" Schema="Gen" store:Type="Tables" />
+          <EntitySet Name="AlumnoCursos" EntityType="Self.AlumnoCursos" Schema="Movs" store:Type="Tables" />
+          <AssociationSet Name="FK_AlumnoCursos_Alumno" Association="Self.FK_AlumnoCursos_Alumno">
+            <End Role="Alumno" EntitySet="Alumno" />
+            <End Role="AlumnoCursos" EntitySet="AlumnoCursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlumnoCursos_Cursos" Association="Self.FK_AlumnoCursos_Cursos">
+            <End Role="Cursos" EntitySet="Cursos" />
+            <End Role="AlumnoCursos" EntitySet="AlumnoCursos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Curso1NetTGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Alumno">
+          <Key>
+            <PropertyRef Name="IDAlumno" />
+          </Key>
+          <Property Name="IDAlumno" Type="Guid" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AlumnoCursos" Relationship="Self.FK_AlumnoCursos_Alumno" FromRole="Alumno" ToRole="AlumnoCursos" />
+        </EntityType>
+        <EntityType Name="Cursos">
+          <Key>
+            <PropertyRef Name="IDCurso" />
+          </Key>
+          <Property Name="IDCurso" Type="Guid" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="AlumnoCursos" Relationship="Self.FK_AlumnoCursos_Cursos" FromRole="Cursos" ToRole="AlumnoCursos" />
+        </EntityType>
+        <EntityType Name="Horarios">
+          <Key>
+            <PropertyRef Name="IDHorario" />
+          </Key>
+          <Property Name="IDHorario" Type="Guid" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcionlarga" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parametros">
+          <Key>
+            <PropertyRef Name="IdParametro" />
+          </Key>
+          <Property Name="IdParametro" Type="Guid" Nullable="false" />
+          <Property Name="Seccion" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Parametro" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Valor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AlumnoCursos">
+          <Key>
+            <PropertyRef Name="IDAlumnoCursos" />
+          </Key>
+          <Property Name="IDAlumnoCursos" Type="Guid" Nullable="false" />
+          <Property Name="IDAlumno" Type="Guid" Nullable="false" />
+          <Property Name="IDCursos" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Alumno" Relationship="Self.FK_AlumnoCursos_Alumno" FromRole="AlumnoCursos" ToRole="Alumno" />
+          <NavigationProperty Name="Cursos" Relationship="Self.FK_AlumnoCursos_Cursos" FromRole="AlumnoCursos" ToRole="Cursos" />
+        </EntityType>
+        <Association Name="FK_AlumnoCursos_Alumno">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+          <End Role="AlumnoCursos" Type="Self.AlumnoCursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="IDAlumno" />
+            </Principal>
+            <Dependent Role="AlumnoCursos">
+              <PropertyRef Name="IDAlumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlumnoCursos_Cursos">
+          <End Role="Cursos" Type="Self.Cursos" Multiplicity="1" />
+          <End Role="AlumnoCursos" Type="Self.AlumnoCursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cursos">
+              <PropertyRef Name="IDCurso" />
+            </Principal>
+            <Dependent Role="AlumnoCursos">
+              <PropertyRef Name="IDCursos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Curso1NetTGEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Alumno" EntityType="Self.Alumno" />
+          <EntitySet Name="Cursos" EntityType="Self.Cursos" />
+          <EntitySet Name="Horarios" EntityType="Self.Horarios" />
+          <EntitySet Name="Parametros" EntityType="Self.Parametros" />
+          <EntitySet Name="AlumnoCursos" EntityType="Self.AlumnoCursos" />
+          <AssociationSet Name="FK_AlumnoCursos_Alumno" Association="Self.FK_AlumnoCursos_Alumno">
+            <End Role="Alumno" EntitySet="Alumno" />
+            <End Role="AlumnoCursos" EntitySet="AlumnoCursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlumnoCursos_Cursos" Association="Self.FK_AlumnoCursos_Cursos">
+            <End Role="Cursos" EntitySet="Cursos" />
+            <End Role="AlumnoCursos" EntitySet="AlumnoCursos" />
+          </AssociationSet>
+          <FunctionImport Name="GetAlumnos" ReturnType="Collection(Curso1NetTGModel.GetAlumnos_Result)">
+          <Parameter Name="IDAlumno" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="GETCursos" ReturnType="Collection(Curso1NetTGModel.GETCursos_Result)">
+          <Parameter Name="IDCursos" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="MantenimientoAlumnosBatch">
+          <Parameter Name="Accion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GETHorarios" ReturnType="Collection(Curso1NetTGModel.GETHorarios_Result)">
+          <Parameter Name="IDHorario" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="MantenimientoHorario">
+            <Parameter Name="IDHorario" Mode="In" Type="Guid" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="DescripcionLarga" Mode="In" Type="String" />
+            <Parameter Name="Accion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MantenimientoCursos">
+            <Parameter Name="IdCursos" Mode="In" Type="Guid" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="accion" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="GetAlumnosCursos" ReturnType="Collection(Curso1NetTGModel.GetAlumnosCursos_Result)">
+            <Parameter Name="IDAlumnoCursos" Mode="In" Type="Guid" />
+            <Parameter Name="IDAlumno" Mode="In" Type="Guid" />
+            <Parameter Name="IDCursos" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="MantenimientoAlumnosCursos">
+            <Parameter Name="IDAlumnoCursos" Mode="In" Type="Guid" />
+            <Parameter Name="IDAlumno" Mode="In" Type="Guid" />
+            <Parameter Name="IDCursos" Mode="In" Type="Guid" />
+            <Parameter Name="Accion" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="MantenimientoAlumno">
+            <Parameter Name="IDAlumno" Mode="In" Type="Guid" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Apellido" Mode="In" Type="String" />
+            <Parameter Name="Correo" Mode="In" Type="String" />
+            <Parameter Name="Accion" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GetAlumnos_Result">
+          <Property Type="Guid" Name="IDAlumno" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Correo" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="GETCursos_Result">
+          <Property Type="Guid" Name="IDCurso" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="40" />
+        </ComplexType>
+        <ComplexType Name="GETHorarios_Result">
+          <Property Type="Guid" Name="IDHorario" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Descripcionlarga" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="GetAlumnosCursos_Result">
+          <Property Type="Guid" Name="IDAlumnoCursos" Nullable="false" />
+          <Property Type="Guid" Name="IDAlumno" Nullable="false" />
+          <Property Type="Guid" Name="IDCursos" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Curso1NetTGModelStoreContainer" CdmEntityContainer="Curso1NetTGEntities">
+          <EntitySetMapping Name="Alumno">
+            <EntityTypeMapping TypeName="Curso1NetTGModel.Alumno">
+              <MappingFragment StoreEntitySet="Alumno">
+                <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cursos">
+            <EntityTypeMapping TypeName="Curso1NetTGModel.Cursos">
+              <MappingFragment StoreEntitySet="Cursos">
+                <ScalarProperty Name="IDCurso" ColumnName="IDCurso" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Horarios">
+            <EntityTypeMapping TypeName="Curso1NetTGModel.Horarios">
+              <MappingFragment StoreEntitySet="Horarios">
+                <ScalarProperty Name="IDHorario" ColumnName="IDHorario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcionlarga" ColumnName="Descripcionlarga" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parametros">
+            <EntityTypeMapping TypeName="Curso1NetTGModel.Parametros">
+              <MappingFragment StoreEntitySet="Parametros">
+                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+                <ScalarProperty Name="Seccion" ColumnName="Seccion" />
+                <ScalarProperty Name="Parametro" ColumnName="Parametro" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlumnoCursos">
+            <EntityTypeMapping TypeName="Curso1NetTGModel.AlumnoCursos">
+              <MappingFragment StoreEntitySet="AlumnoCursos">
+                <ScalarProperty Name="IDAlumnoCursos" ColumnName="IDAlumnoCursos" />
+                <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+                <ScalarProperty Name="IDCursos" ColumnName="IDCursos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetAlumnos" FunctionName="Curso1NetTGModel.Store.GetAlumnos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Curso1NetTGModel.GetAlumnos_Result">
+                <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GETCursos" FunctionName="Curso1NetTGModel.Store.GETCursos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Curso1NetTGModel.GETCursos_Result">
+                <ScalarProperty Name="IDCurso" ColumnName="IDCurso" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MantenimientoAlumnosBatch" FunctionName="Curso1NetTGModel.Store.MantenimientoAlumnosBatch" />
+          <FunctionImportMapping FunctionImportName="GETHorarios" FunctionName="Curso1NetTGModel.Store.GETHorarios">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Curso1NetTGModel.GETHorarios_Result">
+                <ScalarProperty Name="IDHorario" ColumnName="IDHorario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcionlarga" ColumnName="Descripcionlarga" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MantenimientoHorario" FunctionName="Curso1NetTGModel.Store.MantenimientoHorario" />
+          <FunctionImportMapping FunctionImportName="MantenimientoCursos" FunctionName="Curso1NetTGModel.Store.MantenimientoCursos" />
+          <FunctionImportMapping FunctionImportName="GetAlumnosCursos" FunctionName="Curso1NetTGModel.Store.GetAlumnosCursos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Curso1NetTGModel.GetAlumnosCursos_Result">
+                <ScalarProperty Name="IDAlumnoCursos" ColumnName="IDAlumnoCursos" />
+                <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+                <ScalarProperty Name="IDCursos" ColumnName="IDCursos" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MantenimientoAlumnosCursos" FunctionName="Curso1NetTGModel.Store.MantenimientoAlumnosCursos" />
+          <FunctionImportMapping FunctionImportName="MantenimientoAlumno" FunctionName="Curso1NetTGModel.Store.MantenimientoAlumno" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

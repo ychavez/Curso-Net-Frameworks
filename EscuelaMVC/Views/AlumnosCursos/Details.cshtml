@@ -1,0 +1,30 @@
+﻿@model EscuelaMVC.Models.AlumnoCurso
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AlumnoCurso</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt> @Html.DisplayNameFor(x => x.Alumno.Nombre)  </dt>
+        <dd> @Html.DisplayFor(x => x.Alumno.Nombre)  </dd>
+
+        <dt> @Html.DisplayNameFor(x => x.Alumno.Apellido)  </dt>
+        <dd> @Html.DisplayFor(x => x.Alumno.Apellido)  </dd>
+
+        <dt> @Html.DisplayNameFor(x => x.Alumno.Correo)  </dt>
+        <dd> @Html.DisplayFor(x => x.Alumno.Correo)  </dd>
+
+        <dt> @Html.DisplayNameFor(x => x.Curso.Nombre)  </dt>
+        <dd> @Html.DisplayFor(x => x.Curso.Nombre)  </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

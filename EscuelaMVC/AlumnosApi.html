@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <div id="Alumnos"></div>
+        <table>
+            <tr>
+                <th>
+                    IdAlumno
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Apellido
+                </th>
+                <th>
+                    Correo
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            <tbody id="AlumnosData">
+
+            </tbody>
+        </table>
+
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <button type="button" onclick=""></button>
+
+    <script>
+        $(function () {
+
+            $.ajax({
+                url: "http://localhost:54119/api/AlumnosApi",
+                success: function (data) {
+                    console.log(data)
+                    $.each(data, function (index, item) {
+                        //console.log(index)
+                        //console.log(item)
+                        var ItemId = "'" + item.Id + "'";
+                        $('#AlumnosData').append('<tr><td>' + item.Id + '</td><td>' + item.Nombre + '</td><td>' + item.Apellido + '</td><td>' + item.Correo + '</td><td><button type="button" onclick="Detalles(' +ItemId+')">Detalles</button></td></tr>');
+
+                    })
+
+
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+        });
+
+
+        function Detalles(id) {
+            $.ajax({
+                url: "http://localhost:54119/api/AlumnosApi/" + id,
+                success: function (data) {
+                    $('#Alumnos').html('Nombre:' + data.Nombre + '<br/> Correo:' + data.Correo);
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+        }
+
+    </script>
+    
+</body>
+
+
+</html>

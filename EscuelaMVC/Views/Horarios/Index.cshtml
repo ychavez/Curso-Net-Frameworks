@@ -1,0 +1,87 @@
+﻿@model IEnumerable<EscuelaMVC.Models.Horarios>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@{
+
+    if (User.Identity.IsAuthenticated)
+    {
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <button class="btn btn-primary">Alta asincrona</button>
+
+    }
+
+}
+
+<div id="tblHorarios"></div>
+
+<script>
+    $(function () {
+        $("#tblHorarios").dxDataGrid({
+            dataSource: @Html.Raw(Json.Encode(Model)),
+            grouping: {
+                autoExpandAll: true,
+            },
+            searchPanel: {
+                visible: true
+            },
+            paging: {
+                pageSize: 10
+            },
+            groupPanel: {
+                visible: true
+            },
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            headerFilter: {
+                visible: true
+            },
+            columns: ["Nombre","DescripcionLarga"],
+            showBorders: true
+        });
+    });
+
+</script>
+
+
+@*<table class="table table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.DescripcionLarga)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionLarga)
+            </td>
+            <td>
+                @{
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, htmlAttributes: new {@class = "btn btn-success" })
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-danger" })
+                    }
+                }
+            </td>
+        </tr>
+    }
+
+</table>*@
